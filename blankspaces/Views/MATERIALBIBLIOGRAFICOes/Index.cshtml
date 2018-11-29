@@ -1,0 +1,118 @@
+﻿@model IEnumerable<blankspaces.Models.MATERIALBIBLIOGRAFICO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DESCRIPCION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SINOPSIS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FECHA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VOLUMEN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UNIDADES)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EDITORIAL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LENGUAJE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FOTO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AUTOR.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CATERGORIA.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOCUMENTOLOCALIDAD.LOCACIONOURL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TIPODOCUMENTO.TIPODOCUMENTO1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBCATEGORIA.IDSUBCATEGORIA)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NOMBRE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPCION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SINOPSIS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VOLUMEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UNIDADES)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EDITORIAL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LENGUAJE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FOTO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AUTOR.NOMBRE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CATERGORIA.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOCUMENTOLOCALIDAD.LOCACIONOURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TIPODOCUMENTO.TIPODOCUMENTO1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SUBCATEGORIA.IDSUBCATEGORIA)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IDMATBIBLIO }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IDMATBIBLIO }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.IDMATBIBLIO })
+            </td>
+        </tr>
+    }
+
+</table>
