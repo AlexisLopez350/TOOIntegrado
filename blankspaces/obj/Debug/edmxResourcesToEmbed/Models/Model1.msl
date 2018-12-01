@@ -83,6 +83,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DETALLEDEPERSONAs">
+      <EntityTypeMapping TypeName="BibliotecaModel.DETALLEDEPERSONA">
+        <MappingFragment StoreEntitySet="DETALLEDEPERSONA">
+          <ScalarProperty Name="IDDETALLE" ColumnName="IDDETALLE" />
+          <ScalarProperty Name="IDPERSONA" ColumnName="IDPERSONA" />
+          <ScalarProperty Name="LUGARDEESTUDIOS" ColumnName="LUGARDEESTUDIOS" />
+          <ScalarProperty Name="TRABAJA" ColumnName="TRABAJA" />
+          <ScalarProperty Name="ESTUDIA" ColumnName="ESTUDIA" />
+          <ScalarProperty Name="NOMBREMADRE" ColumnName="NOMBREMADRE" />
+          <ScalarProperty Name="NOMBREPADRE" ColumnName="NOMBREPADRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="DOCUMENTOLOCALIDADs">
       <EntityTypeMapping TypeName="BibliotecaModel.DOCUMENTOLOCALIDAD">
         <MappingFragment StoreEntitySet="DOCUMENTOLOCALIDAD">
@@ -181,19 +194,6 @@
         <MappingFragment StoreEntitySet="TIPODOCUMENTO">
           <ScalarProperty Name="IDTIPO" ColumnName="IDTIPO" />
           <ScalarProperty Name="TIPODOCUMENTO1" ColumnName="TIPODOCUMENTO" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DETALLEDEPERSONAs">
-      <EntityTypeMapping TypeName="BibliotecaModel.DETALLEDEPERSONA">
-        <MappingFragment StoreEntitySet="DETALLEDEPERSONA">
-          <ScalarProperty Name="IDDETALLE" ColumnName="IDDETALLE" />
-          <ScalarProperty Name="IDPERSONA" ColumnName="IDPERSONA" />
-          <ScalarProperty Name="LUGARDEESTUDIOS" ColumnName="LUGARDEESTUDIOS" />
-          <ScalarProperty Name="TRABAJA" ColumnName="TRABAJA" />
-          <ScalarProperty Name="ESTUDIA" ColumnName="ESTUDIA" />
-          <ScalarProperty Name="NOMBREMADRE" ColumnName="NOMBREMADRE" />
-          <ScalarProperty Name="NOMBREPADRE" ColumnName="NOMBREPADRE" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

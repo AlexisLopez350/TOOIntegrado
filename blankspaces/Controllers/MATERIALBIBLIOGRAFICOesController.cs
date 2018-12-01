@@ -166,6 +166,8 @@ namespace blankspaces.Controllers
 
         }
 
+
+
         /*public JsonResult GetSubCategoriaList(int IDCATEGORIA)
         {
            db.Configuration.ProxyCreationEnabled = false;
@@ -212,6 +214,201 @@ namespace blankspaces.Controllers
             return id;
 
         }
+        public ActionResult Edit(decimal id)
+        {
+            MaterialViewModel Materialvm = new MaterialViewModel();
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MATERIALBIBLIOGRAFICO mATERIALBIBLIOGRAFICO = db.MATERIALBIBLIOGRAFICOes.Find(id);
+
+            Materialvm.MaterialBibliografico1 = mATERIALBIBLIOGRAFICO;
+
+            Materialvm.foto = mATERIALBIBLIOGRAFICO.FOTO;//added
+            if (mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA != null)
+            {
+                Materialvm.subcategory = mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA;
+            }
+
+
+
+            if (mATERIALBIBLIOGRAFICO.IDLOCALIDAD != null)
+            {
+                Materialvm.idlocalidad = (int)mATERIALBIBLIOGRAFICO.IDLOCALIDAD;
+            }
+
+
+            if (Materialvm.MaterialBibliografico1.IDAUTOR != null)
+            {
+                AUTOR autor = db.AUTORs.Find(Materialvm.MaterialBibliografico1.IDAUTOR);
+                Materialvm.Autor1 = autor;
+            }
+
+            ViewBag.CountryList = new SelectList(GetCategoriaList(), "IDCATEGORIA", "IDCATEGORIA");
+
+            if (Materialvm.MaterialBibliografico1.IDCATEGORIA != null)
+            {
+                CATERGORIA categoria = db.CATERGORIAs.Find(Materialvm.MaterialBibliografico1.IDCATEGORIA);
+                Materialvm.Categoria1 = categoria;
+                Materialvm.IDCATEGORIA = Materialvm.MaterialBibliografico1.IDCATEGORIA;
+            }
+
+            if (Materialvm.MaterialBibliografico1.IDLOCALIDAD != null)
+            {
+                DOCUMENTOLOCALIDAD doc = db.DOCUMENTOLOCALIDADs.Find(Materialvm.MaterialBibliografico1.IDLOCALIDAD);
+                Materialvm.DocumentoLocalidad1 = doc;
+            }
+
+
+
+            ViewBag.Tipo = new SelectList(db.TIPODOCUMENTOes, "IDTIPO", "TIPODOCUMENTO1");
+
+
+
+            //WELL PROBABLY HAVE BUGS CAUSE MANY ATRIBUTES ARE NULL.
+
+
+            if (mATERIALBIBLIOGRAFICO == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            ViewBag.ID = new SelectList(db.AspNetUsers, "Id", "Email", mATERIALBIBLIOGRAFICO.ID);
+            ViewBag.IDAUTOR = new SelectList(db.AUTORs, "IDAUTOR", "NOMBRE", mATERIALBIBLIOGRAFICO.IDAUTOR);
+            ViewBag.IDCATEGORIA = new SelectList(db.CATERGORIAs, "IDCATEGORIA", "ID", mATERIALBIBLIOGRAFICO.IDCATEGORIA);
+            ViewBag.IDLOCALIDAD = new SelectList(db.DOCUMENTOLOCALIDADs, "IDLOCALIDAD", "LOCACIONOURL", mATERIALBIBLIOGRAFICO.IDLOCALIDAD);
+            ViewBag.IDTIPO = new SelectList(db.TIPODOCUMENTOes, "IDTIPO", "TIPODOCUMENTO1", mATERIALBIBLIOGRAFICO.IDTIPO);
+            ViewBag.IDSUBCATEGORIA = new SelectList(db.SUBCATEGORIAs, "IDSUBCATEGORIA", "NOMBRE", mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA);
+            return View(Materialvm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(MaterialViewModel Materialvm, HttpPostedFileBase videofile, HttpPostedFileBase videofile1)
+        {
+            Materialvm.MaterialBibliografico1.FOTO = Materialvm.foto; //posible error
+            Materialvm.MaterialBibliografico1.IDLOCALIDAD = Materialvm.idlocalidad;
+           // Materialvm.MaterialBibliografico1.IDSUBCATEGORIA = Materialvm.subcategory;
+
+
+            MATERIALBIBLIOGRAFICO mATERIALBIBLIOGRAFICO = new MATERIALBIBLIOGRAFICO();
+            mATERIALBIBLIOGRAFICO = Materialvm.MaterialBibliografico1;
+
+            if(mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA==null)
+            {
+                mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA = Materialvm.subcategory;
+            }
+
+
+            var id = checkauthor(Materialvm.Autor1);
+
+            if (id == 0)
+            {
+                db.AUTORs.Add(Materialvm.Autor1);
+                db.SaveChanges();
+                Materialvm.MaterialBibliografico1.IDAUTOR = (int)Materialvm.Autor1.IDAUTOR;
+
+            }
+
+            else
+            {
+                Materialvm.MaterialBibliografico1.IDAUTOR = id;
+
+            }
+
+            //Archivo digital
+
+
+            DOCUMENTOLOCALIDAD doc = new DOCUMENTOLOCALIDAD();
+            if (videofile != null)
+            {
+                string filename = Path.GetFileName(videofile.FileName);
+                videofile.SaveAs(Server.MapPath("/Materiales/" + filename));
+                doc.LOCACIONOURL = "Materiales/" + filename;
+                db.DOCUMENTOLOCALIDADs.Add(doc);
+                db.SaveChanges();
+
+                ViewData["Message"] = "Record Saved Succesfully";
+
+            }
+
+            if (doc.LOCACIONOURL != null)
+            {
+                Materialvm.MaterialBibliografico1.IDLOCALIDAD = doc.IDLOCALIDAD;
+                mATERIALBIBLIOGRAFICO.IDLOCALIDAD = Materialvm.MaterialBibliografico1.IDLOCALIDAD;
+            }
+
+            DOCUMENTOLOCALIDAD doc1 = new DOCUMENTOLOCALIDAD();
+
+
+
+            if (videofile1 != null)
+            {
+                string filename = Path.GetFileName(videofile1.FileName);
+                videofile1.SaveAs(Server.MapPath("/Imagenes/" + filename));
+                Materialvm.MaterialBibliografico1.FOTO = "Imagenes/" + filename;
+                mATERIALBIBLIOGRAFICO.FOTO = Materialvm.MaterialBibliografico1.FOTO;
+                //db.DOCUMENTOLOCALIDADs.Add(doc1);
+                //db.SaveChanges();
+
+                ViewData["Message"] = "Record Saved Succesfully";
+
+
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(mATERIALBIBLIOGRAFICO).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.ID = new SelectList(db.AspNetUsers, "Id", "Email", mATERIALBIBLIOGRAFICO.ID);
+            ViewBag.IDAUTOR = new SelectList(db.AUTORs, "IDAUTOR", "NOMBRE", mATERIALBIBLIOGRAFICO.IDAUTOR);
+            ViewBag.IDCATEGORIA = new SelectList(db.CATERGORIAs, "IDCATEGORIA", "ID", mATERIALBIBLIOGRAFICO.IDCATEGORIA);
+            ViewBag.IDLOCALIDAD = new SelectList(db.DOCUMENTOLOCALIDADs, "IDLOCALIDAD", "LOCACIONOURL", mATERIALBIBLIOGRAFICO.IDLOCALIDAD);
+            ViewBag.IDTIPO = new SelectList(db.TIPODOCUMENTOes, "IDTIPO", "TIPODOCUMENTO1", mATERIALBIBLIOGRAFICO.IDTIPO);
+            ViewBag.IDSUBCATEGORIA = new SelectList(db.SUBCATEGORIAs, "IDSUBCATEGORIA", "NOMBRE", mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA);
+            return View(mATERIALBIBLIOGRAFICO);
+        }
+
+        public ActionResult Delete(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MATERIALBIBLIOGRAFICO mATERIALBIBLIOGRAFICO = db.MATERIALBIBLIOGRAFICOes.Find(id);
+            if (mATERIALBIBLIOGRAFICO == null)
+            {
+                return HttpNotFound();
+            }
+            return View(mATERIALBIBLIOGRAFICO);
+        }
+
+        // POST: MATERIALBIBLIOGRAFICOes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(decimal id)
+        {
+            MATERIALBIBLIOGRAFICO mATERIALBIBLIOGRAFICO = db.MATERIALBIBLIOGRAFICOes.Find(id);
+            db.MATERIALBIBLIOGRAFICOes.Remove(mATERIALBIBLIOGRAFICO);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
 
     }
 }
