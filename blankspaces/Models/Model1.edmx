@@ -90,8 +90,6 @@
           <Property Name="IDMUNICIPIO" Type="int" Nullable="false" />
           <Property Name="NOMDEP" Type="varchar" MaxLength="1024" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="DETALLEDEPERSONA">
           <Key>
             <PropertyRef Name="IDDETALLE" />
@@ -460,6 +458,7 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <EntitySet Name="AUTOR" EntityType="Self.AUTOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATERGORIA" EntityType="Self.CATERGORIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DEPARTAMENTO" EntityType="Self.DEPARTAMENTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DETALLEDEPERSONA" EntityType="Self.DETALLEDEPERSONA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCUMENTOLOCALIDAD" EntityType="Self.DOCUMENTOLOCALIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MATERIALBIBLIOGRAFICO" EntityType="Self.MATERIALBIBLIOGRAFICO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MENU" EntityType="Self.MENU" Schema="dbo" store:Type="Tables" />
@@ -469,17 +468,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <EntitySet Name="PRESTAMO" EntityType="Self.PRESTAMO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBCATEGORIA" EntityType="Self.SUBCATEGORIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIPODOCUMENTO" EntityType="Self.TIPODOCUMENTO" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DETALLEDEPERSONA" EntityType="Self.DETALLEDEPERSONA" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DETALLEDEPERSONA].[IDDETALLE] AS [IDDETALLE], 
-    [DETALLEDEPERSONA].[IDPERSONA] AS [IDPERSONA], 
-    [DETALLEDEPERSONA].[LUGARDEESTUDIOS] AS [LUGARDEESTUDIOS], 
-    [DETALLEDEPERSONA].[TRABAJA] AS [TRABAJA], 
-    [DETALLEDEPERSONA].[ESTUDIA] AS [ESTUDIA], 
-    [DETALLEDEPERSONA].[NOMBREMADRE] AS [NOMBREMADRE], 
-    [DETALLEDEPERSONA].[NOMBREPADRE] AS [NOMBREPADRE]
-    FROM [dbo].[DETALLEDEPERSONA] AS [DETALLEDEPERSONA]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CATERGOR_REFERENCE_ASPNETUSERS" Association="Self.FK_CATERGOR_REFERENCE_ASPNETUSERS">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="CATERGORIA" EntitySet="CATERGORIA" />
@@ -659,6 +647,19 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <Property Name="NOMDEP" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="MUNICIPIO" Relationship="Self.FK_DEPARTAM_REFERENCE_MUNICIPI" FromRole="DEPARTAMENTO" ToRole="MUNICIPIO" />
         </EntityType>
+        <EntityType Name="DETALLEDEPERSONA">
+          <Key>
+            <PropertyRef Name="IDDETALLE" />
+          </Key>
+          <Property Name="IDDETALLE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPERSONA" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LUGARDEESTUDIOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TRABAJA" Type="Boolean" />
+          <Property Name="ESTUDIA" Type="Boolean" />
+          <Property Name="NOMBREMADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBREPADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PERSONA" Relationship="Self.FK_DETALLED_REFERENCE_PERSONA" FromRole="DETALLEDEPERSONA" ToRole="PERSONA" />
+        </EntityType>
         <EntityType Name="DOCUMENTOLOCALIDAD">
           <Key>
             <PropertyRef Name="IDLOCALIDAD" />
@@ -739,8 +740,8 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <Property Name="GENERO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DIRECCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TELEFONO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="MUNICIPIO" Relationship="Self.FK_PERSONA_REFERENCE_MUNICIPI" FromRole="PERSONA" ToRole="MUNICIPIO" />
           <NavigationProperty Name="DETALLEDEPERSONAs" Relationship="Self.FK_DETALLED_REFERENCE_PERSONA" FromRole="PERSONA" ToRole="DETALLEDEPERSONA" />
+          <NavigationProperty Name="MUNICIPIO" Relationship="Self.FK_PERSONA_REFERENCE_MUNICIPI" FromRole="PERSONA" ToRole="MUNICIPIO" />
         </EntityType>
         <EntityType Name="PRESTAMO">
           <Key>
@@ -771,19 +772,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <Property Name="IDTIPO" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TIPODOCUMENTO1" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="MATERIALBIBLIOGRAFICOes" Relationship="Self.FK_MATERIAL_FK_MATERI_TIPODOCU" FromRole="TIPODOCUMENTO" ToRole="MATERIALBIBLIOGRAFICO" />
-        </EntityType>
-        <EntityType Name="DETALLEDEPERSONA">
-          <Key>
-            <PropertyRef Name="IDDETALLE" />
-          </Key>
-          <Property Name="IDDETALLE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDPERSONA" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="LUGARDEESTUDIOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TRABAJA" Type="Boolean" />
-          <Property Name="ESTUDIA" Type="Boolean" />
-          <Property Name="NOMBREMADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBREPADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PERSONA" Relationship="Self.FK_DETALLED_REFERENCE_PERSONA" FromRole="DETALLEDEPERSONA" ToRole="PERSONA" />
         </EntityType>
         <Association Name="FK_MENU_FK_MENU_S_ASPNETROLES">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="1" />
@@ -925,6 +913,18 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DETALLED_REFERENCE_PERSONA">
+          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="0..1" />
+          <End Role="DETALLEDEPERSONA" Type="Self.DETALLEDEPERSONA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONA">
+              <PropertyRef Name="IDPERSONA" />
+            </Principal>
+            <Dependent Role="DETALLEDEPERSONA">
+              <PropertyRef Name="IDPERSONA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MATERIAL_FK_MATERI_DOCUMENT">
           <End Role="DOCUMENTOLOCALIDAD" Type="Self.DOCUMENTOLOCALIDAD" Multiplicity="1" />
           <End Role="MATERIALBIBLIOGRAFICO" Type="Self.MATERIALBIBLIOGRAFICO" Multiplicity="*" />
@@ -999,18 +999,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DETALLED_REFERENCE_PERSONA">
-          <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="0..1" />
-          <End Role="DETALLEDEPERSONA" Type="Self.DETALLEDEPERSONA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERSONA">
-              <PropertyRef Name="IDPERSONA" />
-            </Principal>
-            <Dependent Role="DETALLEDEPERSONA">
-              <PropertyRef Name="IDPERSONA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -1024,6 +1012,7 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <EntitySet Name="AUTORs" EntityType="Self.AUTOR" />
           <EntitySet Name="CATERGORIAs" EntityType="Self.CATERGORIA" />
           <EntitySet Name="DEPARTAMENTOes" EntityType="Self.DEPARTAMENTO" />
+          <EntitySet Name="DETALLEDEPERSONAs" EntityType="Self.DETALLEDEPERSONA" />
           <EntitySet Name="DOCUMENTOLOCALIDADs" EntityType="Self.DOCUMENTOLOCALIDAD" />
           <EntitySet Name="MATERIALBIBLIOGRAFICOes" EntityType="Self.MATERIALBIBLIOGRAFICO" />
           <EntitySet Name="MENUs" EntityType="Self.MENU" />
@@ -1033,7 +1022,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <EntitySet Name="PRESTAMOes" EntityType="Self.PRESTAMO" />
           <EntitySet Name="SUBCATEGORIAs" EntityType="Self.SUBCATEGORIA" />
           <EntitySet Name="TIPODOCUMENTOes" EntityType="Self.TIPODOCUMENTO" />
-          <EntitySet Name="DETALLEDEPERSONAs" EntityType="Self.DETALLEDEPERSONA" />
           <AssociationSet Name="FK_MENU_FK_MENU_S_ASPNETROLES" Association="Self.FK_MENU_FK_MENU_S_ASPNETROLES">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="MENU" EntitySet="MENUs" />
@@ -1078,6 +1066,10 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
             <End Role="MUNICIPIO" EntitySet="MUNICIPIOs" />
             <End Role="DEPARTAMENTO" EntitySet="DEPARTAMENTOes" />
           </AssociationSet>
+          <AssociationSet Name="FK_DETALLED_REFERENCE_PERSONA" Association="Self.FK_DETALLED_REFERENCE_PERSONA">
+            <End Role="PERSONA" EntitySet="PERSONAs" />
+            <End Role="DETALLEDEPERSONA" EntitySet="DETALLEDEPERSONAs" />
+          </AssociationSet>
           <AssociationSet Name="FK_MATERIAL_FK_MATERI_DOCUMENT" Association="Self.FK_MATERIAL_FK_MATERI_DOCUMENT">
             <End Role="DOCUMENTOLOCALIDAD" EntitySet="DOCUMENTOLOCALIDADs" />
             <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICOes" />
@@ -1101,10 +1093,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
           <AssociationSet Name="FK_PERSONA_REFERENCE_MUNICIPI" Association="Self.FK_PERSONA_REFERENCE_MUNICIPI">
             <End Role="MUNICIPIO" EntitySet="MUNICIPIOs" />
             <End Role="PERSONA" EntitySet="PERSONAs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DETALLED_REFERENCE_PERSONA" Association="Self.FK_DETALLED_REFERENCE_PERSONA">
-            <End Role="PERSONA" EntitySet="PERSONAs" />
-            <End Role="DETALLEDEPERSONA" EntitySet="DETALLEDEPERSONAs" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -1196,6 +1184,19 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
                 <ScalarProperty Name="IDDEP" ColumnName="IDDEP" />
                 <ScalarProperty Name="IDMUNICIPIO" ColumnName="IDMUNICIPIO" />
                 <ScalarProperty Name="NOMDEP" ColumnName="NOMDEP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETALLEDEPERSONAs">
+            <EntityTypeMapping TypeName="BibliotecaModel.DETALLEDEPERSONA">
+              <MappingFragment StoreEntitySet="DETALLEDEPERSONA">
+                <ScalarProperty Name="IDDETALLE" ColumnName="IDDETALLE" />
+                <ScalarProperty Name="IDPERSONA" ColumnName="IDPERSONA" />
+                <ScalarProperty Name="LUGARDEESTUDIOS" ColumnName="LUGARDEESTUDIOS" />
+                <ScalarProperty Name="TRABAJA" ColumnName="TRABAJA" />
+                <ScalarProperty Name="ESTUDIA" ColumnName="ESTUDIA" />
+                <ScalarProperty Name="NOMBREMADRE" ColumnName="NOMBREMADRE" />
+                <ScalarProperty Name="NOMBREPADRE" ColumnName="NOMBREPADRE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1300,19 +1301,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DETALLEDEPERSONAs">
-            <EntityTypeMapping TypeName="BibliotecaModel.DETALLEDEPERSONA">
-              <MappingFragment StoreEntitySet="DETALLEDEPERSONA">
-                <ScalarProperty Name="IDDETALLE" ColumnName="IDDETALLE" />
-                <ScalarProperty Name="IDPERSONA" ColumnName="IDPERSONA" />
-                <ScalarProperty Name="LUGARDEESTUDIOS" ColumnName="LUGARDEESTUDIOS" />
-                <ScalarProperty Name="TRABAJA" ColumnName="TRABAJA" />
-                <ScalarProperty Name="ESTUDIA" ColumnName="ESTUDIA" />
-                <ScalarProperty Name="NOMBREMADRE" ColumnName="NOMBREMADRE" />
-                <ScalarProperty Name="NOMBREPADRE" ColumnName="NOMBREPADRE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="BibliotecaModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
@@ -1338,7 +1326,7 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

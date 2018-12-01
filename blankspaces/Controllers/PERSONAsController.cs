@@ -44,13 +44,7 @@ namespace blankspaces.Controllers
         }
 
         // GET: PERSONAs/Create
-        public ActionResult Create()
-        {
-            ViewBag.IDMUNICIPIO = new SelectList(db.MUNICIPIOs, "IDMUNICIPIO", "NOMMUN");
-            return View();
-        }
-
-
+     
 
         // CAMBIOS!
         public ActionResult Crear()
@@ -72,17 +66,18 @@ namespace blankspaces.Controllers
                 if (ModelState.IsValid)
                 {
 
+                    db.PERSONAs.Add(Usuariovm.Persona1);
+                    db.SaveChanges();
+
+                    Usuariovm.Detalledepersona1.IDPERSONA = Usuariovm.Persona1.IDPERSONA;//posible error
 
                     db.DETALLEDEPERSONAs.Add(Usuariovm.Detalledepersona1);
                     db.SaveChanges();
                     //changes
-                    var sql = "select max(iddetalle) from dbo.DETALLEDEPERSONA";
-                    var total = db.Database.SqlQuery<int>(sql).First();
-
+                   
                     //changes
 
-                    db.PERSONAs.Add(Usuariovm.Persona1);
-                    db.SaveChanges();
+                    
                     //return RedirectToAction("Index");
                     // return RedirectToAction("Create", "USUARIOs", pERSONA.IDPERSONA);
                     //TRABAJAR CON EL OBJETO PERSONA, O QUITARLO

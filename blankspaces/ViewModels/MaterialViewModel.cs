@@ -15,6 +15,8 @@ namespace blankspaces.ViewModels
         public TIPODOCUMENTO TipoDocumento1 { get; set; }
         public string IDCATEGORIA { get; set; }
         public string IDSUBCATEGORIA { get; set; }
-
+        public string foto { get; set; }
+        public int idlocalidad { get; set; }
+        public string subcategory { get; set; }
     }
 }

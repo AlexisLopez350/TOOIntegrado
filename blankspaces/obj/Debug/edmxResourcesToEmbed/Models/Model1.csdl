@@ -93,6 +93,19 @@
     <Property Name="NOMDEP" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="MUNICIPIO" Relationship="Self.FK_DEPARTAM_REFERENCE_MUNICIPI" FromRole="DEPARTAMENTO" ToRole="MUNICIPIO" />
   </EntityType>
+  <EntityType Name="DETALLEDEPERSONA">
+    <Key>
+      <PropertyRef Name="IDDETALLE" />
+    </Key>
+    <Property Name="IDDETALLE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDPERSONA" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="LUGARDEESTUDIOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TRABAJA" Type="Boolean" />
+    <Property Name="ESTUDIA" Type="Boolean" />
+    <Property Name="NOMBREMADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NOMBREPADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PERSONA" Relationship="Self.FK_DETALLED_REFERENCE_PERSONA" FromRole="DETALLEDEPERSONA" ToRole="PERSONA" />
+  </EntityType>
   <EntityType Name="DOCUMENTOLOCALIDAD">
     <Key>
       <PropertyRef Name="IDLOCALIDAD" />
@@ -173,8 +186,8 @@
     <Property Name="GENERO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="DIRECCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="TELEFONO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="MUNICIPIO" Relationship="Self.FK_PERSONA_REFERENCE_MUNICIPI" FromRole="PERSONA" ToRole="MUNICIPIO" />
     <NavigationProperty Name="DETALLEDEPERSONAs" Relationship="Self.FK_DETALLED_REFERENCE_PERSONA" FromRole="PERSONA" ToRole="DETALLEDEPERSONA" />
+    <NavigationProperty Name="MUNICIPIO" Relationship="Self.FK_PERSONA_REFERENCE_MUNICIPI" FromRole="PERSONA" ToRole="MUNICIPIO" />
   </EntityType>
   <EntityType Name="PRESTAMO">
     <Key>
@@ -205,19 +218,6 @@
     <Property Name="IDTIPO" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="TIPODOCUMENTO1" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="MATERIALBIBLIOGRAFICOes" Relationship="Self.FK_MATERIAL_FK_MATERI_TIPODOCU" FromRole="TIPODOCUMENTO" ToRole="MATERIALBIBLIOGRAFICO" />
-  </EntityType>
-  <EntityType Name="DETALLEDEPERSONA">
-    <Key>
-      <PropertyRef Name="IDDETALLE" />
-    </Key>
-    <Property Name="IDDETALLE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IDPERSONA" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-    <Property Name="LUGARDEESTUDIOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="TRABAJA" Type="Boolean" />
-    <Property Name="ESTUDIA" Type="Boolean" />
-    <Property Name="NOMBREMADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="NOMBREPADRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="PERSONA" Relationship="Self.FK_DETALLED_REFERENCE_PERSONA" FromRole="DETALLEDEPERSONA" ToRole="PERSONA" />
   </EntityType>
   <Association Name="FK_MENU_FK_MENU_S_ASPNETROLES">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="1" />
@@ -359,6 +359,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_DETALLED_REFERENCE_PERSONA">
+    <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="0..1" />
+    <End Role="DETALLEDEPERSONA" Type="Self.DETALLEDEPERSONA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PERSONA">
+        <PropertyRef Name="IDPERSONA" />
+      </Principal>
+      <Dependent Role="DETALLEDEPERSONA">
+        <PropertyRef Name="IDPERSONA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_MATERIAL_FK_MATERI_DOCUMENT">
     <End Role="DOCUMENTOLOCALIDAD" Type="Self.DOCUMENTOLOCALIDAD" Multiplicity="1" />
     <End Role="MATERIALBIBLIOGRAFICO" Type="Self.MATERIALBIBLIOGRAFICO" Multiplicity="*" />
@@ -433,18 +445,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_DETALLED_REFERENCE_PERSONA">
-    <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="0..1" />
-    <End Role="DETALLEDEPERSONA" Type="Self.DETALLEDEPERSONA" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PERSONA">
-        <PropertyRef Name="IDPERSONA" />
-      </Principal>
-      <Dependent Role="DETALLEDEPERSONA">
-        <PropertyRef Name="IDPERSONA" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="AspNetUserRoles">
     <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
     <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -458,6 +458,7 @@
     <EntitySet Name="AUTORs" EntityType="Self.AUTOR" />
     <EntitySet Name="CATERGORIAs" EntityType="Self.CATERGORIA" />
     <EntitySet Name="DEPARTAMENTOes" EntityType="Self.DEPARTAMENTO" />
+    <EntitySet Name="DETALLEDEPERSONAs" EntityType="Self.DETALLEDEPERSONA" />
     <EntitySet Name="DOCUMENTOLOCALIDADs" EntityType="Self.DOCUMENTOLOCALIDAD" />
     <EntitySet Name="MATERIALBIBLIOGRAFICOes" EntityType="Self.MATERIALBIBLIOGRAFICO" />
     <EntitySet Name="MENUs" EntityType="Self.MENU" />
@@ -467,7 +468,6 @@
     <EntitySet Name="PRESTAMOes" EntityType="Self.PRESTAMO" />
     <EntitySet Name="SUBCATEGORIAs" EntityType="Self.SUBCATEGORIA" />
     <EntitySet Name="TIPODOCUMENTOes" EntityType="Self.TIPODOCUMENTO" />
-    <EntitySet Name="DETALLEDEPERSONAs" EntityType="Self.DETALLEDEPERSONA" />
     <AssociationSet Name="FK_MENU_FK_MENU_S_ASPNETROLES" Association="Self.FK_MENU_FK_MENU_S_ASPNETROLES">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="MENU" EntitySet="MENUs" />
@@ -512,6 +512,10 @@
       <End Role="MUNICIPIO" EntitySet="MUNICIPIOs" />
       <End Role="DEPARTAMENTO" EntitySet="DEPARTAMENTOes" />
     </AssociationSet>
+    <AssociationSet Name="FK_DETALLED_REFERENCE_PERSONA" Association="Self.FK_DETALLED_REFERENCE_PERSONA">
+      <End Role="PERSONA" EntitySet="PERSONAs" />
+      <End Role="DETALLEDEPERSONA" EntitySet="DETALLEDEPERSONAs" />
+    </AssociationSet>
     <AssociationSet Name="FK_MATERIAL_FK_MATERI_DOCUMENT" Association="Self.FK_MATERIAL_FK_MATERI_DOCUMENT">
       <End Role="DOCUMENTOLOCALIDAD" EntitySet="DOCUMENTOLOCALIDADs" />
       <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICOes" />
@@ -535,10 +539,6 @@
     <AssociationSet Name="FK_PERSONA_REFERENCE_MUNICIPI" Association="Self.FK_PERSONA_REFERENCE_MUNICIPI">
       <End Role="MUNICIPIO" EntitySet="MUNICIPIOs" />
       <End Role="PERSONA" EntitySet="PERSONAs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DETALLED_REFERENCE_PERSONA" Association="Self.FK_DETALLED_REFERENCE_PERSONA">
-      <End Role="PERSONA" EntitySet="PERSONAs" />
-      <End Role="DETALLEDEPERSONA" EntitySet="DETALLEDEPERSONAs" />
     </AssociationSet>
     <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
