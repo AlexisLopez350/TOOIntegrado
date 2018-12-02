@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Detalles</h2>
 
 <div>
-    <h4>MATERIALBIBLIOGRAFICO</h4>
+    <h4> @Html.DisplayFor(model => model.NOMBRE)</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -79,7 +79,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FOTO)
+            <img src="/@Url.Content(Model.FOTO)" alt="Image" height="120" width="120" />
         </dd>
 
         <dt>
@@ -98,6 +98,23 @@
             @Html.DisplayFor(model => model.AUTOR.NOMBRE)
         </dd>
 
+
+        <dt>
+            UBICACIÓN:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DOCUMENTOLOCALIDAD.LOCACIONOURL)
+        </dd>
+
+        <dt>
+            TIPO DE DOCUMENTO:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIPODOCUMENTO.TIPODOCUMENTO1)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.CATERGORIA.ID)
         </dt>
@@ -107,32 +124,25 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DOCUMENTOLOCALIDAD.LOCACIONOURL)
+          CATEGORIA
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DOCUMENTOLOCALIDAD.LOCACIONOURL)
+            @Html.DisplayFor(model => model.IDCATEGORIA)
         </dd>
 
+
         <dt>
-            @Html.DisplayNameFor(model => model.TIPODOCUMENTO.TIPODOCUMENTO1)
+           SUBCATEGORIA
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TIPODOCUMENTO.TIPODOCUMENTO1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SUBCATEGORIA.NOMBRE)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SUBCATEGORIA.NOMBRE)
+            @Html.DisplayFor(model => model.IDSUBCATEGORIA)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IDMATBIBLIO }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.IDMATBIBLIO }) |
+    @Html.ActionLink("Regresar", "Index")
 </p>

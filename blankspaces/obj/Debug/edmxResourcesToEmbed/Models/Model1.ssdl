@@ -85,8 +85,6 @@
     <Property Name="IDMUNICIPIO" Type="int" Nullable="false" />
     <Property Name="NOMDEP" Type="varchar" MaxLength="1024" Nullable="false" />
   </EntityType>
-  <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="DETALLEDEPERSONA">
     <Key>
       <PropertyRef Name="IDDETALLE" />
@@ -455,6 +453,7 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
     <EntitySet Name="AUTOR" EntityType="Self.AUTOR" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CATERGORIA" EntityType="Self.CATERGORIA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DEPARTAMENTO" EntityType="Self.DEPARTAMENTO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DETALLEDEPERSONA" EntityType="Self.DETALLEDEPERSONA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DOCUMENTOLOCALIDAD" EntityType="Self.DOCUMENTOLOCALIDAD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MATERIALBIBLIOGRAFICO" EntityType="Self.MATERIALBIBLIOGRAFICO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MENU" EntityType="Self.MENU" Schema="dbo" store:Type="Tables" />
@@ -464,17 +463,6 @@ advertencia 6002: La tabla o vista 'Biblioteca.dbo.DETALLEDEPERSONA' no tiene de
     <EntitySet Name="PRESTAMO" EntityType="Self.PRESTAMO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBCATEGORIA" EntityType="Self.SUBCATEGORIA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPODOCUMENTO" EntityType="Self.TIPODOCUMENTO" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="DETALLEDEPERSONA" EntityType="Self.DETALLEDEPERSONA" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [DETALLEDEPERSONA].[IDDETALLE] AS [IDDETALLE], 
-    [DETALLEDEPERSONA].[IDPERSONA] AS [IDPERSONA], 
-    [DETALLEDEPERSONA].[LUGARDEESTUDIOS] AS [LUGARDEESTUDIOS], 
-    [DETALLEDEPERSONA].[TRABAJA] AS [TRABAJA], 
-    [DETALLEDEPERSONA].[ESTUDIA] AS [ESTUDIA], 
-    [DETALLEDEPERSONA].[NOMBREMADRE] AS [NOMBREMADRE], 
-    [DETALLEDEPERSONA].[NOMBREPADRE] AS [NOMBREPADRE]
-    FROM [dbo].[DETALLEDEPERSONA] AS [DETALLEDEPERSONA]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_CATERGOR_REFERENCE_ASPNETUSERS" Association="Self.FK_CATERGOR_REFERENCE_ASPNETUSERS">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="CATERGORIA" EntitySet="CATERGORIA" />
