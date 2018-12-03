@@ -92,6 +92,7 @@ namespace blankspaces.Controllers
             ViewBag.Categorias = new SelectList(db.CATERGORIAs, "IDCATEGORIA", "IDCATEGORIA");
             ViewBag.Tipo = new SelectList(db.TIPODOCUMENTOes, "IDTIPO", "TIPODOCUMENTO1");
             ViewBag.CategoriaList = new SelectList(GetCategoriaList(), "IDCATEGORIA", "IDCATEGORIA");
+            ViewBag.Biblioteca = new SelectList(db.BIBLIOTECAs, "IDBIBLIOTECA", "NOMBRE");
             Materialvm.ID = User.Identity.GetUserId();
 
             return View(Materialvm);
@@ -226,6 +227,7 @@ namespace blankspaces.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             MATERIALBIBLIOGRAFICO mATERIALBIBLIOGRAFICO = db.MATERIALBIBLIOGRAFICOes.Find(id);
+            ViewBag.Biblioteca = new SelectList(db.BIBLIOTECAs, "IDBIBLIOTECA", "NOMBRE");
 
             Materialvm.MaterialBibliografico1 = mATERIALBIBLIOGRAFICO;
 

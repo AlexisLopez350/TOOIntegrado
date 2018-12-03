@@ -12,23 +12,23 @@ namespace blankspaces.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PRESTAMO
+    public partial class BIBLIOTECA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PRESTAMO()
+        public BIBLIOTECA()
         {
-            this.REGISTROes = new HashSet<REGISTRO>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
+            this.MATERIALBIBLIOGRAFICOes = new HashSet<MATERIALBIBLIOGRAFICO>();
         }
     
-        public int IDPRESTAMO { get; set; }
-        public decimal IDMATBIBLIO { get; set; }
-        public string ID { get; set; }
-        public string FECHADEPRESTAMO { get; set; }
-        public string FECHADEENTREGA { get; set; }
+        public int IDBIBLIOTECA { get; set; }
+        public string NOMBRE { get; set; }
+        public string DIRECCION { get; set; }
+        public string TELEFONO { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual MATERIALBIBLIOGRAFICO MATERIALBIBLIOGRAFICO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<REGISTRO> REGISTROes { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MATERIALBIBLIOGRAFICO> MATERIALBIBLIOGRAFICOes { get; set; }
     }
 }

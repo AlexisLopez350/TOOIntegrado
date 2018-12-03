@@ -54,6 +54,7 @@
           <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="IdPersona" ColumnName="IdPersona" />
+          <ScalarProperty Name="IDBIBLIOTECA" ColumnName="IDBIBLIOTECA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -62,6 +63,16 @@
         <MappingFragment StoreEntitySet="AUTOR">
           <ScalarProperty Name="IDAUTOR" ColumnName="IDAUTOR" />
           <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BIBLIOTECAs">
+      <EntityTypeMapping TypeName="BibliotecaModel.BIBLIOTECA">
+        <MappingFragment StoreEntitySet="BIBLIOTECA">
+          <ScalarProperty Name="IDBIBLIOTECA" ColumnName="IDBIBLIOTECA" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -124,6 +135,7 @@
           <ScalarProperty Name="FOTO" ColumnName="FOTO" />
           <ScalarProperty Name="IDAUTOR" ColumnName="IDAUTOR" />
           <ScalarProperty Name="IDSUBCATEGORIA" ColumnName="IDSUBCATEGORIA" />
+          <ScalarProperty Name="IDBIBLIOTECA" ColumnName="IDBIBLIOTECA" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -177,6 +189,16 @@
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="FECHADEPRESTAMO" ColumnName="FECHADEPRESTAMO" />
           <ScalarProperty Name="FECHADEENTREGA" ColumnName="FECHADEENTREGA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="REGISTROes">
+      <EntityTypeMapping TypeName="BibliotecaModel.REGISTRO">
+        <MappingFragment StoreEntitySet="REGISTRO">
+          <ScalarProperty Name="IDREGISTRO" ColumnName="IDREGISTRO" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IDPRESTAMO" ColumnName="IDPRESTAMO" />
+          <ScalarProperty Name="IDMATBIBLIO" ColumnName="IDMATBIBLIO" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

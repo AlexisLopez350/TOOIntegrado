@@ -78,6 +78,10 @@ namespace blankspaces.Models
         public string Rol { get; set; }
 
         [Required]
+        [Display(Name = "IdBiblioteca")]
+        public int IdBiblioteca { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -88,8 +92,8 @@ namespace blankspaces.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public AspNetRole rol1 { get; set; } //added
-        public AspNetUser aspuser1 { get; set; }//added
+        //public AspNetRole rol1 { get; set; } //added
+        //public AspNetUser aspuser1 { get; set; }//added
 
     }
 

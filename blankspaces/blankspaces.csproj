@@ -203,6 +203,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BIBLIOTECAsController.cs" />
     <Compile Include="Controllers\CATERGORIAsController.cs" />
     <Compile Include="Controllers\DETALLEDEPERSONAsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -237,6 +238,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AUTOR.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BIBLIOTECA.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CATERGORIA.cs">
@@ -287,6 +291,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PRESTAMO.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REGISTRO.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SUBCATEGORIA.cs">
@@ -414,6 +421,11 @@
     <Content Include="Views\SUBCATEGORIAs\Index.cshtml" />
     <Content Include="Views\Shared\GetStateList.cshtml" />
     <Content Include="Views\Shared\DisplaySubcategoria.cshtml" />
+    <Content Include="Views\BIBLIOTECAs\Create.cshtml" />
+    <Content Include="Views\BIBLIOTECAs\Delete.cshtml" />
+    <Content Include="Views\BIBLIOTECAs\Details.cshtml" />
+    <Content Include="Views\BIBLIOTECAs\Edit.cshtml" />
+    <Content Include="Views\BIBLIOTECAs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

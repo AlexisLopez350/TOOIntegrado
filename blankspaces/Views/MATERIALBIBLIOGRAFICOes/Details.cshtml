@@ -10,6 +10,17 @@
     <h4> @Html.DisplayFor(model => model.NOMBRE)</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FOTO)
+        </dt>
+
+        <dd>
+            <img src="/@Url.Content(Model.FOTO)" alt="Image" height="120" width="120" />
+        </dd>
+
+
+
         <dt>
             @Html.DisplayNameFor(model => model.NOMBRE)
         </dt>
@@ -74,13 +85,6 @@
             @Html.DisplayFor(model => model.LENGUAJE)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FOTO)
-        </dt>
-
-        <dd>
-            <img src="/@Url.Content(Model.FOTO)" alt="Image" height="120" width="120" />
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.AspNetUser.Email)
@@ -124,7 +128,7 @@
         </dd>
 
         <dt>
-          CATEGORIA
+            CATEGORIA
         </dt>
 
         <dd>
@@ -133,11 +137,19 @@
 
 
         <dt>
-           SUBCATEGORIA
+            SUBCATEGORIA
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.IDSUBCATEGORIA)
+        </dd>
+
+        <dt>
+            Biblioteca:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BIBLIOTECA.NOMBRE)
         </dd>
 
     </dl>

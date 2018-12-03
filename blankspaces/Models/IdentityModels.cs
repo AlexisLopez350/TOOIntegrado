@@ -10,6 +10,7 @@ namespace blankspaces.Models
     public class ApplicationUser : IdentityUser
     {
         public string IdPersona { get; set; }
+        public int IdBiblioteca { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

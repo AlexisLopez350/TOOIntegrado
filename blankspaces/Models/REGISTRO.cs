@@ -12,23 +12,15 @@ namespace blankspaces.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PRESTAMO
+    public partial class REGISTRO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PRESTAMO()
-        {
-            this.REGISTROes = new HashSet<REGISTRO>();
-        }
-    
+        public int IDREGISTRO { get; set; }
+        public string Id { get; set; }
         public int IDPRESTAMO { get; set; }
         public decimal IDMATBIBLIO { get; set; }
-        public string ID { get; set; }
-        public string FECHADEPRESTAMO { get; set; }
-        public string FECHADEENTREGA { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual MATERIALBIBLIOGRAFICO MATERIALBIBLIOGRAFICO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<REGISTRO> REGISTROes { get; set; }
+        public virtual PRESTAMO PRESTAMO { get; set; }
     }
 }

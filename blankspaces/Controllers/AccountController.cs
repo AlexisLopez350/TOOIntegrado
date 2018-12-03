@@ -143,6 +143,7 @@ namespace blankspaces.Controllers
             RegisterViewModel rm = new RegisterViewModel();
             rm.IdPersona = id;
             ViewBag.roles = new SelectList(db.AspNetRoles, "Name", "Name");
+            ViewBag.Biblioteca = new SelectList(db.BIBLIOTECAs, "IDBIBLIOTECA", "NOMBRE");
             return View(rm);
         }
 
@@ -158,7 +159,7 @@ namespace blankspaces.Controllers
             if (ModelState.IsValid)
             {
                 //ViewBag.roles = new SelectList(db.AspNetRoles, "Id", "Name");
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IdPersona= model.IdPersona};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IdPersona= model.IdPersona, IdBiblioteca=model.IdBiblioteca };
                 var result = await UserManager.CreateAsync(user, model.Password );
                 db.SaveChanges();
                 UserManager.AddToRole(user.Id, model.Rol);

@@ -61,6 +61,7 @@
     <Property Name="AccessFailedCount" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
     <Property Name="IdPersona" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="IDBIBLIOTECA" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AUTOR">
     <Key>
@@ -68,6 +69,15 @@
     </Key>
     <Property Name="IDAUTOR" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NOMBRE" Type="varchar" MaxLength="1024" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BIBLIOTECA">
+    <Key>
+      <PropertyRef Name="IDBIBLIOTECA" />
+    </Key>
+    <Property Name="IDBIBLIOTECA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NOMBRE" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="DIRECCION" Type="varchar" MaxLength="255" />
+    <Property Name="TELEFONO" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="CATERGORIA">
     <Key>
@@ -125,6 +135,7 @@
     <Property Name="FOTO" Type="varchar" MaxLength="1024" Nullable="false" />
     <Property Name="IDAUTOR" Type="int" Nullable="false" />
     <Property Name="IDSUBCATEGORIA" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="IDBIBLIOTECA" Type="int" />
   </EntityType>
   <EntityType Name="MENU">
     <Key>
@@ -174,6 +185,15 @@
     <Property Name="FECHADEPRESTAMO" Type="varchar" MaxLength="1024" Nullable="false" />
     <Property Name="FECHADEENTREGA" Type="varchar" MaxLength="1024" Nullable="false" />
   </EntityType>
+  <EntityType Name="REGISTRO">
+    <Key>
+      <PropertyRef Name="IDREGISTRO" />
+    </Key>
+    <Property Name="IDREGISTRO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IDPRESTAMO" Type="int" Nullable="false" />
+    <Property Name="IDMATBIBLIO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
   <EntityType Name="SUBCATEGORIA">
     <Key>
       <PropertyRef Name="IDSUBCATEGORIA" />
@@ -189,6 +209,18 @@
     <Property Name="IDTIPO" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TIPODOCUMENTO" Type="varchar" MaxLength="1024" Nullable="false" />
   </EntityType>
+  <Association Name="FK_AspNetUsers_REFERENCE_PERSONA">
+    <End Role="PERSONA" Type="Self.PERSONA" Multiplicity="1" />
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PERSONA">
+        <PropertyRef Name="IDPERSONA" />
+      </Principal>
+      <Dependent Role="AspNetUsers">
+        <PropertyRef Name="IdPersona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_CATERGOR_REFERENCE_ASPNETUSERS">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
     <End Role="CATERGORIA" Type="Self.CATERGORIA" Multiplicity="*" />
@@ -292,6 +324,20 @@
       </Principal>
       <Dependent Role="MATERIALBIBLIOGRAFICO">
         <PropertyRef Name="IDCATEGORIA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Biblioteca">
+    <End Role="BIBLIOTECA" Type="Self.BIBLIOTECA" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MATERIALBIBLIOGRAFICO" Type="Self.MATERIALBIBLIOGRAFICO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BIBLIOTECA">
+        <PropertyRef Name="IDBIBLIOTECA" />
+      </Principal>
+      <Dependent Role="MATERIALBIBLIOGRAFICO">
+        <PropertyRef Name="IDBIBLIOTECA" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -431,6 +477,46 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Registro_Material">
+    <End Role="MATERIALBIBLIOGRAFICO" Type="Self.MATERIALBIBLIOGRAFICO" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MATERIALBIBLIOGRAFICO">
+        <PropertyRef Name="IDMATBIBLIO" />
+      </Principal>
+      <Dependent Role="REGISTRO">
+        <PropertyRef Name="IDMATBIBLIO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registro_Prestamo">
+    <End Role="PRESTAMO" Type="Self.PRESTAMO" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRESTAMO">
+        <PropertyRef Name="IDPRESTAMO" />
+      </Principal>
+      <Dependent Role="REGISTRO">
+        <PropertyRef Name="IDPRESTAMO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registro_Users">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="REGISTRO">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Subcategoria_Categoria">
     <End Role="CATERGORIA" Type="Self.CATERGORIA" Multiplicity="1" />
     <End Role="SUBCATEGORIA" Type="Self.SUBCATEGORIA" Multiplicity="*" />
@@ -443,6 +529,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Users_Biblioteca">
+    <End Role="BIBLIOTECA" Type="Self.BIBLIOTECA" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BIBLIOTECA">
+        <PropertyRef Name="IDBIBLIOTECA" />
+      </Principal>
+      <Dependent Role="AspNetUsers">
+        <PropertyRef Name="IDBIBLIOTECA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="BibliotecaModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -451,6 +551,7 @@
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AUTOR" EntityType="Self.AUTOR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BIBLIOTECA" EntityType="Self.BIBLIOTECA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CATERGORIA" EntityType="Self.CATERGORIA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DEPARTAMENTO" EntityType="Self.DEPARTAMENTO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DETALLEDEPERSONA" EntityType="Self.DETALLEDEPERSONA" Schema="dbo" store:Type="Tables" />
@@ -461,8 +562,13 @@
     <EntitySet Name="PENALIZACION" EntityType="Self.PENALIZACION" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PERSONA" EntityType="Self.PERSONA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRESTAMO" EntityType="Self.PRESTAMO" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="REGISTRO" EntityType="Self.REGISTRO" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBCATEGORIA" EntityType="Self.SUBCATEGORIA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIPODOCUMENTO" EntityType="Self.TIPODOCUMENTO" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AspNetUsers_REFERENCE_PERSONA" Association="Self.FK_AspNetUsers_REFERENCE_PERSONA">
+      <End Role="PERSONA" EntitySet="PERSONA" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
     <AssociationSet Name="FK_CATERGOR_REFERENCE_ASPNETUSERS" Association="Self.FK_CATERGOR_REFERENCE_ASPNETUSERS">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="CATERGORIA" EntitySet="CATERGORIA" />
@@ -493,6 +599,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_MATERI_CATERGOR" Association="Self.FK_MATERI_CATERGOR">
       <End Role="CATERGORIA" EntitySet="CATERGORIA" />
+      <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Biblioteca" Association="Self.FK_Material_Biblioteca">
+      <End Role="BIBLIOTECA" EntitySet="BIBLIOTECA" />
       <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICO" />
     </AssociationSet>
     <AssociationSet Name="FK_MATERIAL_FK_MATERI_DOCUMENT" Association="Self.FK_MATERIAL_FK_MATERI_DOCUMENT">
@@ -539,9 +649,25 @@
       <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICO" />
       <End Role="PRESTAMO" EntitySet="PRESTAMO" />
     </AssociationSet>
+    <AssociationSet Name="FK_Registro_Material" Association="Self.FK_Registro_Material">
+      <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICO" />
+      <End Role="REGISTRO" EntitySet="REGISTRO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registro_Prestamo" Association="Self.FK_Registro_Prestamo">
+      <End Role="PRESTAMO" EntitySet="PRESTAMO" />
+      <End Role="REGISTRO" EntitySet="REGISTRO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registro_Users" Association="Self.FK_Registro_Users">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="REGISTRO" EntitySet="REGISTRO" />
+    </AssociationSet>
     <AssociationSet Name="FK_Subcategoria_Categoria" Association="Self.FK_Subcategoria_Categoria">
       <End Role="CATERGORIA" EntitySet="CATERGORIA" />
       <End Role="SUBCATEGORIA" EntitySet="SUBCATEGORIA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Biblioteca" Association="Self.FK_Users_Biblioteca">
+      <End Role="BIBLIOTECA" EntitySet="BIBLIOTECA" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
