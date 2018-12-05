@@ -10,6 +10,7 @@ namespace blankspaces.ViewModels
     {
         public AUTOR Autor1 { get; set; }
         public CATERGORIA Categoria1 { get; set; }
+        public SUBCATEGORIA Subcategoria1 { get; set; }
         public DOCUMENTOLOCALIDAD DocumentoLocalidad1 { get; set; }
         public MATERIALBIBLIOGRAFICO MaterialBibliografico1 { get; set; }
         public TIPODOCUMENTO TipoDocumento1 { get; set; }

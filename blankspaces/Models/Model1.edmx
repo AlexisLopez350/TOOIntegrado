@@ -184,7 +184,7 @@
           <Key>
             <PropertyRef Name="IDPRESTAMO" />
           </Key>
-          <Property Name="IDPRESTAMO" Type="int" Nullable="false" />
+          <Property Name="IDPRESTAMO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDMATBIBLIO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="FECHADEPRESTAMO" Type="varchar" MaxLength="1024" Nullable="false" />
@@ -496,20 +496,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Registro_Prestamo">
-          <End Role="PRESTAMO" Type="Self.PRESTAMO" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRESTAMO">
-              <PropertyRef Name="IDPRESTAMO" />
-            </Principal>
-            <Dependent Role="REGISTRO">
-              <PropertyRef Name="IDPRESTAMO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Registro_Users">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
@@ -656,10 +642,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Registro_Material" Association="Self.FK_Registro_Material">
             <End Role="MATERIALBIBLIOGRAFICO" EntitySet="MATERIALBIBLIOGRAFICO" />
-            <End Role="REGISTRO" EntitySet="REGISTRO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Registro_Prestamo" Association="Self.FK_Registro_Prestamo">
-            <End Role="PRESTAMO" EntitySet="PRESTAMO" />
             <End Role="REGISTRO" EntitySet="REGISTRO" />
           </AssociationSet>
           <AssociationSet Name="FK_Registro_Users" Association="Self.FK_Registro_Users">
@@ -892,14 +874,13 @@
           <Key>
             <PropertyRef Name="IDPRESTAMO" />
           </Key>
-          <Property Name="IDPRESTAMO" Type="Int32" Nullable="false" />
+          <Property Name="IDPRESTAMO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IDMATBIBLIO" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FECHADEPRESTAMO" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FECHADEENTREGA" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_PRESTAMO_FK_PRESTA_ASPNETUSERS" FromRole="PRESTAMO" ToRole="AspNetUsers" />
           <NavigationProperty Name="MATERIALBIBLIOGRAFICO" Relationship="Self.FK_PRESTAMO_FK_PRESTA_MATERIAL" FromRole="PRESTAMO" ToRole="MATERIALBIBLIOGRAFICO" />
-          <NavigationProperty Name="REGISTROes" Relationship="Self.FK_Registro_Prestamo" FromRole="PRESTAMO" ToRole="REGISTRO" />
         </EntityType>
         <EntityType Name="REGISTRO">
           <Key>
@@ -911,7 +892,6 @@
           <Property Name="IDMATBIBLIO" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Registro_Users" FromRole="REGISTRO" ToRole="AspNetUsers" />
           <NavigationProperty Name="MATERIALBIBLIOGRAFICO" Relationship="Self.FK_Registro_Material" FromRole="REGISTRO" ToRole="MATERIALBIBLIOGRAFICO" />
-          <NavigationProperty Name="PRESTAMO" Relationship="Self.FK_Registro_Prestamo" FromRole="REGISTRO" ToRole="PRESTAMO" />
         </EntityType>
         <EntityType Name="SUBCATEGORIA">
           <Key>
@@ -1223,20 +1203,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Registro_Prestamo">
-          <End Role="PRESTAMO" Type="Self.PRESTAMO" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PRESTAMO">
-              <PropertyRef Name="IDPRESTAMO" />
-            </Principal>
-            <Dependent Role="REGISTRO">
-              <PropertyRef Name="IDPRESTAMO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -1353,10 +1319,6 @@
           <AssociationSet Name="FK_PERSONA_REFERENCE_MUNICIPI" Association="Self.FK_PERSONA_REFERENCE_MUNICIPI">
             <End Role="MUNICIPIO" EntitySet="MUNICIPIOs" />
             <End Role="PERSONA" EntitySet="PERSONAs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Registro_Prestamo" Association="Self.FK_Registro_Prestamo">
-            <End Role="PRESTAMO" EntitySet="PRESTAMOes" />
-            <End Role="REGISTRO" EntitySet="REGISTROes" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />

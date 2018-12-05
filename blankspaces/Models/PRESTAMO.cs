@@ -14,12 +14,6 @@ namespace blankspaces.Models
     
     public partial class PRESTAMO
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PRESTAMO()
-        {
-            this.REGISTROes = new HashSet<REGISTRO>();
-        }
-    
         public int IDPRESTAMO { get; set; }
         public decimal IDMATBIBLIO { get; set; }
         public string ID { get; set; }
@@ -28,7 +22,5 @@ namespace blankspaces.Models
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual MATERIALBIBLIOGRAFICO MATERIALBIBLIOGRAFICO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<REGISTRO> REGISTROes { get; set; }
     }
 }

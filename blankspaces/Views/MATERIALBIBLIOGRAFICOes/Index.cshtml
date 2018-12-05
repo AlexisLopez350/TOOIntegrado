@@ -12,7 +12,7 @@
     @Html.ActionLink("Ingresar material", "Create")
 </p>
 @*Este es el codigo en el index para el boton de busqueda*@
-@using (Html.BeginForm("Index", "Material", FormMethod.Get))
+@using (Html.BeginForm("Index", "MATERIALBIBLIOGRAFICOes", FormMethod.Get))
 {
     <p>
         Busqueda:@Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
@@ -20,7 +20,7 @@
 
     </p>
 }
-<a href="Material">Todos los Registros</a>
+<a href="MATERIALBIBLIOGRAFICOes">Todos los Registros</a>
 
 <table class="table">
     <tr>

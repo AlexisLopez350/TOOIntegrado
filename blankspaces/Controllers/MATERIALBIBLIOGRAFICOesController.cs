@@ -98,6 +98,48 @@ namespace blankspaces.Controllers
             return View(Materialvm);
         }
 
+        public ActionResult Index2(string sortOrder, string searchString, string CurrentFilter, int? page)
+        { // cambios borre el objeto catergorias, no se porque ya no se creo.
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
+            ViewBag.AutorSortParm = String.IsNullOrEmpty(sortOrder) ? "Autor" : "";
+            var mATERIALBIBLIOGRAFICOes = db.MATERIALBIBLIOGRAFICOes.Include(m => m.CATERGORIA).Include(m => m.DOCUMENTOLOCALIDAD).Include(m => m.TIPODOCUMENTO).Include(m => m.SUBCATEGORIA);
+
+            //desde aqui es el codigo para la busqueda por filtro 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = CurrentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                mATERIALBIBLIOGRAFICOes = mATERIALBIBLIOGRAFICOes.Where(s => s.NOMBRE.Contains(searchString) || s.DESCRIPCION.Contains(searchString) || s.SINOPSIS.Contains(searchString) || s.UNIDADES.Contains(searchString)
+                || s.EDITORIAL.Contains(searchString) || s.LENGUAJE.Contains(searchString) || s.AUTOR.NOMBRE.Contains(searchString));
+            }
+            //hasta aqui
+
+            switch (sortOrder)
+            {
+                case "Nombre":
+                    mATERIALBIBLIOGRAFICOes = mATERIALBIBLIOGRAFICOes.OrderByDescending(s => s.NOMBRE);
+                    break;
+                case "Autor":
+                    mATERIALBIBLIOGRAFICOes = mATERIALBIBLIOGRAFICOes.OrderByDescending(s => s.AUTOR.NOMBRE);
+                    break;
+                default:
+                    mATERIALBIBLIOGRAFICOes = mATERIALBIBLIOGRAFICOes.OrderBy(s => s.NOMBRE);
+                    break;
+            }
+            //hasta aqui
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(mATERIALBIBLIOGRAFICOes.ToPagedList(pageNumber, pageSize));
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,6 +152,7 @@ namespace blankspaces.Controllers
                 db.AUTORs.Add(Materialvm.Autor1);
                 db.SaveChanges();
                 Materialvm.MaterialBibliografico1.IDAUTOR = (int)Materialvm.Autor1.IDAUTOR;
+                
 
             }
 
@@ -161,6 +204,13 @@ namespace blankspaces.Controllers
             }
 
             //Guardar material
+            Materialvm.ID = User.Identity.GetUserId();
+            Materialvm.MaterialBibliografico1.ID = Materialvm.ID;
+
+
+            Materialvm.MaterialBibliografico1.IDLOCALIDAD = 1;
+
+
             db.MATERIALBIBLIOGRAFICOes.Add(Materialvm.MaterialBibliografico1);
 
             db.SaveChanges();
@@ -296,13 +346,13 @@ namespace blankspaces.Controllers
         {
             Materialvm.MaterialBibliografico1.FOTO = Materialvm.foto; //posible error
             Materialvm.MaterialBibliografico1.IDLOCALIDAD = Materialvm.idlocalidad;
-           // Materialvm.MaterialBibliografico1.IDSUBCATEGORIA = Materialvm.subcategory;
+            // Materialvm.MaterialBibliografico1.IDSUBCATEGORIA = Materialvm.subcategory;
 
 
             MATERIALBIBLIOGRAFICO mATERIALBIBLIOGRAFICO = new MATERIALBIBLIOGRAFICO();
             mATERIALBIBLIOGRAFICO = Materialvm.MaterialBibliografico1;
 
-            if(mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA==null)
+            if (mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA == null)
             {
                 mATERIALBIBLIOGRAFICO.IDSUBCATEGORIA = Materialvm.subcategory;
             }

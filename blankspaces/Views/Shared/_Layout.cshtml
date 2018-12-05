@@ -29,13 +29,30 @@
                     <li>@Html.ActionLink("Estadisticas", "Index", "Home")</li>
                     <li>@Html.ActionLink("Gestionar Personas", "Index", "PERSONAs")</li>
                     <li>@Html.ActionLink("Gestionar Bibliotecas", "Index", "Home")</li>
-                           }
+                       }
                        }
                     @{  if (User.IsInRole("Administrador Bibliotecario"))
                         {
-                            <li>@Html.ActionLink("Gestionar Material", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Gestionar Material", "Index", "MATERIALBIBLIOGRAFICOes")</li>
                             <li>@Html.ActionLink("Gestionar Personas", "Index", "PERSONAs")</li>
-                            <li>@Html.ActionLink("Devoluciones", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Gestionar Categoria", "Index", "CATERGORIAs")</li>
+                            <li>@Html.ActionLink("Gestionar Subategoria", "Index", "SUBCATEGORIAs")</li>
+                            } }
+                    @{  if (User.IsInRole("Cliente"))
+                        {
+                            <li>@Html.ActionLink("Busqueda", "Index2", "MATERIALBIBLIOGRAFICOes")</li>
+                        }
+                    }
+                    @{  if (User.IsInRole("Bibliotecario"))
+                        {
+                            <li>@Html.ActionLink("Gestionar Personas", "Index", "PERSONAs")</li>
+                            <li>@Html.ActionLink("Busqueda", "Index2", "MATERIALBIBLIOGRAFICOes")</li>
+                        }
+                    }
+                    @{  if (User.IsInRole("Administrador General"))
+                        {
+                            <li>@Html.ActionLink("Gestionar Biblioteca", "Index", "BIBLIOTECAs")</li>
+                            <li>@Html.ActionLink("Estadisticas", "LibroMasPrestado", "EstadisticaCategoria")</li>
                         }
                     }
                 </ul>

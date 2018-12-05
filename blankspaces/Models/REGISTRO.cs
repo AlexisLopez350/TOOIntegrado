@@ -21,6 +21,5 @@ namespace blankspaces.Models
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual MATERIALBIBLIOGRAFICO MATERIALBIBLIOGRAFICO { get; set; }
-        public virtual PRESTAMO PRESTAMO { get; set; }
     }
 }
